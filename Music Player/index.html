@@ -1,0 +1,110 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Music Player</title>
+        
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head>
+    <body>
+<div class="main_div">
+    <div class="music_container">
+        <h2 id="title">Bramhanda Nayaka</h2>
+        <h3 id="artist">Om Sai Ram</h3>
+        <div class="img_container">
+        <img src="Images/bramhanda_nayaka.jpg">
+    </div>
+    <audio src="audio/bramhanda_nayaka.mp3"></audio> 
+    <!-- Controls     -->
+    <div class="music_controls">
+        <i class="fas fa-solid fa-backward" id="prev" title="Previous"></i>
+        <i class="fas fa-solid fa-play main_button" id="play" title="Play"></i>
+        <i class="fas fa-solid fa-forward" id="next" title="Next"></i>
+    </div>
+    </div>
+</div>
+
+<!-- Javascript -->
+<script>
+    const music = document.querySelector('audio');
+    const img = document.querySelector("img");
+    const play = document.getElementById("play");
+    const artist = document.getElementById("artist");
+    const title = document.getElementById("title");
+    const prev = document.getElementById("prev");
+    const next = document.getElementById("next");
+    
+    const songs = [
+        {
+        name: "bramhanda_nayaka",
+        title: "Bramhanda Nayaka",
+        artist: "Om Sai Ram",
+    },
+    {
+        name: "deena_dukhiyo",
+        title: "Deena Dukhiyo Se",
+        artist: "Om Sai Ram",
+    },
+    {
+        name: "hum_tere",
+        title: "Hum Tere Hey Sai",
+        artist: "Om Sai Ram",
+    },
+    {
+        name: "sai_kanhaiya",
+        title: "Sai Kanhaiya",
+        artist: "Om Sai Ram",
+    },
+];
+
+    let isPlaying = false;
+    // for play
+    const playMusic = () => {
+        isPlaying = true;
+        music.play();
+        play.classList.replace('fa-play', 'fa-pause');
+        img.classList.add("anime");
+    };
+
+    // for pause
+    const pauseMusic = () => {
+        isPlaying = false;
+        music.pause();
+        play.classList.replace('fa-pause', 'fa-play');
+        img.classList.remove("anime");
+    };
+
+    play.addEventListener('click', () => {
+        if (isPlaying) {
+            pauseMusic();
+        }else{
+            playMusic();
+        }
+    })
+
+    // for next and previous music
+    const loadSong = (songs) => {
+        title.textContent = songs.title;
+        artist.textContent = songs.artist;
+        music.src = "audio/"+ songs.name + ".mp3";
+        img.src = "images/" + songs.name + ".jpg";
+    };
+songIndex = 0;
+const nextSong = () => {
+   songIndex = (songIndex + 1) % songs.length;
+    loadSong(songs[songIndex]);
+    playMusic();
+};
+
+const prevSong = () => {
+   songIndex = (songIndex - 1 + songs.length) % songs.length;
+    loadSong(songs[songIndex]);
+    playMusic();
+}
+next.addEventListener('click', nextSong);
+prev.addEventListener('click', prevSong);
+
+</script>
+    </body>
+</html>
